@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.vector.pulltorefresh.fragment.UltraAutoDefaultFragment;
+import com.vector.pulltorefresh.fragment.UltraCustomFooterFragment;
+import com.vector.pulltorefresh.fragment.UltraCustomHeaderFragment;
 import com.vector.pulltorefresh.fragment.UltraDefaultFragment;
 import com.vector.pulltorefresh.fragment.UltraLoadMoreFragment;
 
@@ -16,7 +18,7 @@ import com.vector.pulltorefresh.fragment.UltraLoadMoreFragment;
  * Date: 2015/10/12
  * Description:<p>{TODO: 用一句话描述}
  */
-public class UltraPullRefreshActivity extends BaseActivity implements View.OnClickListener{
+public class UltraPullRefreshActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class UltraPullRefreshActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.default_pull_btn:
                 showFragment(UltraDefaultFragment.class.getName());
                 break;
@@ -35,6 +37,12 @@ public class UltraPullRefreshActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.load_more_btn:
                 showFragment(UltraLoadMoreFragment.class.getName());
+                break;
+            case R.id.custom_header_1:
+                showFragment(UltraCustomHeaderFragment.class.getName());
+                break;
+            case R.id.custom_footer_1:
+                showFragment(UltraCustomFooterFragment.class.getName());
                 break;
         }
     }

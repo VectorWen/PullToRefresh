@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.vector.pulltorefresh.R;
+import com.vector.pulltorefresh.header.UltraCustomHeader;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,9 @@ public class UltraCustomHeaderFragment extends Fragment {
         mParent = inflater.inflate(R.layout.ultra_default_fragment,null,false);
         mPullListView = (PtrClassicFrameLayout) mParent.findViewById(R.id.pull_list_view);
         mListView = (ListView) mPullListView.findViewById(R.id.list_view);
+        UltraCustomHeader header = new UltraCustomHeader(getActivity());
+        mPullListView.setHeaderView(header);
+        mPullListView.addPtrUIHandler(header);
         mPullListView.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -45,7 +49,7 @@ public class UltraCustomHeaderFragment extends Fragment {
                     public void run() {
                         mPullListView.refreshComplete();
                     }
-                },3000);
+                },6000);
             }
 
             @Override
