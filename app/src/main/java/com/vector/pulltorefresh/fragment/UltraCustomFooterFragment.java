@@ -64,7 +64,7 @@ public class UltraCustomFooterFragment extends Fragment {
                         mPullListView.refreshComplete();
                         loadMoreListViewContainer.loadMoreFinish(true,true);
                     }
-                }, 1000);
+                }, 4000);
             }
 
             @Override
@@ -89,23 +89,22 @@ public class UltraCustomFooterFragment extends Fragment {
                 mPullListView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        int size = mData.size();
+                        for(int i = size;i<size+20;i++){
+                            mData.add(i + "  --  " + i);
+                        }
+                        mAdapter.notifyDataSetChanged();
+
                         if(mData.size() > 50){
                             loadMoreContainer.loadMoreFinish(false,false);
                         }else{
-                            int size = mData.size();
-                            for(int i = size;i<size+20;i++){
-                                mData.add(i + "  --  " + i);
-                            }
-                            mAdapter.notifyDataSetChanged();
                             loadMoreContainer.loadMoreFinish(true,true);
                         }
                     }
                 }, 1000);
             }
         });
-
-        //show empty view
-//        loadMoreListViewContainer.setVisibility(View.INVISIBLE);
 
         setData();
         return mParent;

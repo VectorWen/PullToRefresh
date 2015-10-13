@@ -2,19 +2,36 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="wrap_content"
+    android:background="#f1f1f1">
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:scaleType="centerInside"
         android:layout_centerInParent="true"
-        android:background="@drawable/load_footer"/>
-    <!--
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="SB"/>-->
+        android:src="@drawable/load_footer"/>
+
+    <LinearLayout
+        android:id="@+id/load_finish"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="90dp"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_load_finish"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"
+            android:text="亲！没有更多内容了，休息一会吧~"/>
+    </LinearLayout>
+
 </RelativeLayout>

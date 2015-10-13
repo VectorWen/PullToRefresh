@@ -20,8 +20,10 @@ import in.srain.cube.views.loadmore.LoadMoreUIHandler;
  */
 public class UltraCustomFooter extends FrameLayout implements LoadMoreUIHandler {
 
-    private ImageView mImageView;
-    private AnimationDrawable mAnim;
+    private ImageView mImageView;  //加载中...
+    private AnimationDrawable mAnim; //加载中动画..
+
+    private View mLoadFinishView;//加载完成
 
     public UltraCustomFooter(Context context) {
         super(context);
@@ -41,20 +43,22 @@ public class UltraCustomFooter extends FrameLayout implements LoadMoreUIHandler 
     private void initViews(AttributeSet attrs) {
         View view = inflate(getContext(), R.layout.ultra_custom_footer_item,this);
         mImageView = (ImageView) view.findViewById(R.id.image_view);
-        mAnim = (AnimationDrawable) mImageView.getBackground();
+        mAnim = (AnimationDrawable) mImageView.getDrawable();
+        mLoadFinishView = view.findViewById(R.id.load_finish);
     }
 
     @Override
     public void onLoading(LoadMoreContainer container) {
+        mImageView.setVisibility(VISIBLE);
+        mLoadFinishView.setVisibility(GONE);
         mAnim.start();
     }
 
     @Override
     public void onLoadFinish(LoadMoreContainer container, boolean empty, boolean hasMore) {
-        if(hasMore){
-            mAnim.start();
-        }else{
-            mAnim.stop();
+        if(!hasMore){
+            mImageView.setVisibility(GONE);
+            mLoadFinishView.setVisibility(VISIBLE);
         }
     }
 

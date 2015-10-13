@@ -7,6 +7,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -31,7 +32,6 @@ public class UltraCustomHeader extends FrameLayout implements PtrUIHandler {
     private Logger logger = Logger.getLogger();
 
     private ImageView mImageView;
-    private ImageView mImageViewMove;
     private AnimationDrawable mAnim; //跑步动画
     private ObjectAnimator mObjectAnim;//移动动画
     private int mInitX;//初始化的位置
@@ -55,10 +55,9 @@ public class UltraCustomHeader extends FrameLayout implements PtrUIHandler {
     protected void initViews(AttributeSet attrs) {
         View header = LayoutInflater.from(getContext()).inflate(R.layout.ultra_custom_header_item, this);
         mImageView = (ImageView) header.findViewById(R.id.image_view);
-        mImageViewMove = (ImageView) header.findViewById(R.id.image_view_move);
-        mAnim = (AnimationDrawable) mImageView.getBackground();
+        mAnim = (AnimationDrawable) mImageView.getDrawable();
         mMove = mInitX+ getContext().getResources().getDimensionPixelSize(R.dimen.pull_anim);
-        mObjectAnim = ObjectAnimator.ofFloat(mImageView,"translationX",mMove/2,mMove,mMove/2,mInitX,mMove/2).setDuration(2200);
+        mObjectAnim = ObjectAnimator.ofFloat(mImageView,"translationX",mInitX,mMove/2,mInitX,-mMove/2,mInitX).setDuration(2200);
         mObjectAnim.setInterpolator(new LinearInterpolator());
         mObjectAnim.setRepeatCount(100000);
     }
@@ -71,15 +70,12 @@ public class UltraCustomHeader extends FrameLayout implements PtrUIHandler {
     @Override
     public void onUIRefreshPrepare(PtrFrameLayout ptrFrameLayout) {
         logger.d("onUIRefreshPrepare()");
-        mImageViewMove.setTranslationX(mInitX);
-        mImageViewMove.setVisibility(VISIBLE);
-        mImageView.setVisibility(GONE);
+        mImageView.setTranslationX(mInitX);
     }
 
     @Override
     public void onUIRefreshBegin(PtrFrameLayout ptrFrameLayout) {
         logger.d("onUIRefreshBegin()");
-        mImageViewMove.setVisibility(GONE);
         mImageView.setVisibility(VISIBLE);
         mAnim.start();
         mObjectAnim.start();
@@ -107,19 +103,10 @@ public class UltraCustomHeader extends FrameLayout implements PtrUIHandler {
         final int lastPos = ptrIndicator.getLastPosY();
         if(currentPos > getHeight()){
         }else{
-            mImageViewMove.setTranslationX(mImageViewMove.getTranslationX()+currentPos-lastPos);
-            int i = currentPos/(mMove/5); //需要显示第几针了
-            switch (i){
-                case 0:
-                    mImageViewMove.setImageResource(R.drawable.ic_pull_anim_1);
-                    break;
-                case 1:
-                    mImageViewMove.setImageResource(R.drawable.ic_pull_anim_2);
-                    break;
-                case 2:
-                    mImageViewMove.setImageResource(R.drawable.ic_pull_anim_1);
-                    break;
-            }
+            ViewGroup.LayoutParams params = mImageView.getLayoutParams();
+            params.height = currentPos;
+            params.width = currentPos;
+            mImageView.setLayoutParams(params);
         }
         logger.d("onUIPositionChange() currentPos = %d , lastPos = %d",currentPos,lastPos);
     }
