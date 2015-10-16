@@ -3,12 +3,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <TextView
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="我都没有数据的"/>
-
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/pull_list_view"
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"

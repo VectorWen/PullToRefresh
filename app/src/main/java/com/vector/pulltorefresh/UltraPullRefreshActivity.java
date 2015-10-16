@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.vector.pulltorefresh.fragment.UltraAutoDefaultFragment;
+import com.vector.pulltorefresh.fragment.UltraCustomEmptyViewFragment;
 import com.vector.pulltorefresh.fragment.UltraCustomFooterFragment;
 import com.vector.pulltorefresh.fragment.UltraCustomHeaderFragment;
 import com.vector.pulltorefresh.fragment.UltraDefaultFragment;
@@ -43,6 +44,9 @@ public class UltraPullRefreshActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.custom_footer_1:
                 showFragment(UltraCustomFooterFragment.class.getName());
+                break;
+            case R.id.custom_empty_view:
+                showFragment(UltraCustomEmptyViewFragment.class.getName());
                 break;
         }
     }

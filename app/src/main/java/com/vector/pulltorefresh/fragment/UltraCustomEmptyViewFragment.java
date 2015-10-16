@@ -29,7 +29,7 @@ import in.srain.cube.views.ptr.PtrHandler;
  * Date: 2015/10/12
  * Description:<p>{TODO: 用一句话描述}
  */
-public class UltraCustomFooterFragment extends Fragment {
+public class UltraCustomEmptyViewFragment extends Fragment {
 
     private View mParent;
     private ListView mListView;
@@ -37,13 +37,12 @@ public class UltraCustomFooterFragment extends Fragment {
     private LoadMoreListViewContainer loadMoreListViewContainer;
     private ArrayList<String> mData;
     private ArrayAdapter<String> mAdapter;
-    private UltraCustomFooter mFooter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mParent = inflater.inflate(R.layout.ultra_load_more_fragment,null,false);
+        mParent = inflater.inflate(R.layout.ultra_empty_view_fragment,null,false);
         mPullListView = (PtrClassicFrameLayout) mParent.findViewById(R.id.pull_list_view);
         UltraCustomHeader header = new UltraCustomHeader(getActivity());
         mPullListView.setHeaderView(header);
@@ -54,7 +53,6 @@ public class UltraCustomFooterFragment extends Fragment {
         mPullListView.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                mFooter.setVisibility(View.GONE);
                 mPullListView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -62,11 +60,12 @@ public class UltraCustomFooterFragment extends Fragment {
                         for(int i = 0;i<20;i++){
                             mData.add(i + "  --  " + i);
                         }
+                        loadMoreListViewContainer.setVisibility(View.VISIBLE);
                         mAdapter.notifyDataSetInvalidated();
                         mPullListView.refreshComplete();
                         loadMoreListViewContainer.loadMoreFinish(true,true);
                     }
-                }, 10000);
+                }, 4000);
             }
 
             @Override
@@ -80,17 +79,14 @@ public class UltraCustomFooterFragment extends Fragment {
         //加载更多头
        loadMoreListViewContainer = (LoadMoreListViewContainer) mParent.findViewById(R.id.load_more_list_view_container);
 //        loadMoreListViewContainer.useDefaultHeader();
-        mFooter = new UltraCustomFooter(getActivity());
-        loadMoreListViewContainer.setLoadMoreView(mFooter);
-        loadMoreListViewContainer.setLoadMoreUIHandler(mFooter);
+        UltraCustomFooter footer = new UltraCustomFooter(getActivity());
+        loadMoreListViewContainer.setLoadMoreView(footer);
+        loadMoreListViewContainer.setLoadMoreUIHandler(footer);
+
         // binding view and data
         loadMoreListViewContainer.setLoadMoreHandler(new LoadMoreHandler() {
             @Override
             public void onLoadMore(final LoadMoreContainer loadMoreContainer) {
-                if(mPullListView.isRefreshing()){ //头部刷新中...
-                    return;
-                }
-                mFooter.setVisibility(View.VISIBLE);
                 mPullListView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -107,9 +103,12 @@ public class UltraCustomFooterFragment extends Fragment {
                             loadMoreContainer.loadMoreFinish(true,true);
                         }
                     }
-                }, 10000);
+                }, 1000);
             }
         });
+
+        //show empty view
+        loadMoreListViewContainer.setVisibility(View.GONE);
 
         setData();
         return mParent;
